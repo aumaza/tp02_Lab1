@@ -1,0 +1,33 @@
+# depslib dependency file v1.0
+1537096072 source:/home/augusto/Proyectos/TP2/main.c
+	<stdio.h>
+	<stdlib.h>
+	"Employee.h"
+	"misFunciones.h"
+
+1537097883 /home/augusto/Proyectos/TP2/Employee.h
+
+1537037867 source:/home/augusto/Proyectos/TP2/menuGeneral.c
+	<stdio.h>
+	<stdlib.h>
+	<conio.h>
+	"Employee.h"
+
+1537096035 source:/home/augusto/Proyectos/TP2/Employee.c
+	<stdio.h>
+	<stdlib.h>
+	<conio.h>
+	"Employee.h"
+	"misFunciones.h"
+
+1537095689 /home/augusto/Proyectos/TP2/misFunciones.h
+
+1537096057 source:/home/augusto/Proyectos/TP2/misFunciones.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<ctype.h>
+	<conio.h>
+	"misFunciones.h"
+	"Employee.h"
+
