@@ -6,6 +6,18 @@
 #include "misFunciones.h"
 #include "Employee.h"
 
+#define LENGTH_MAX 100
+#define TAM_SECTION 5
+
+
+#ifdef __linux__
+#define SO "Linux"
+#elif _WIN32
+#define SO "Windows"
+#elif _WIN64
+#define SO "MsWindows"
+#endif
+
 /** \brief Funcion strlwr
  *
  * \param convierte todos los caracteres de un string a minuscula.-
@@ -15,7 +27,7 @@
  */
 
 
-char strlwr(char *str)
+char stringToLwr(char* str)
 {
   unsigned char *p = (unsigned char *)str;
 
@@ -38,7 +50,7 @@ char strlwr(char *str)
  *
  */
 
-char strupper(char *str)
+char stringToUpper(char* str)
 {
   unsigned char *p = (unsigned char *)str;
 
@@ -81,7 +93,6 @@ void removeNewLine(char* string)
  */
 
 void removeNewLines(char* string)
-
 {
   size_t length = strlen(string);
 
@@ -267,34 +278,194 @@ return dato;
 
 int optionMain()
 {
-system("cls");
-system("clear");
+osDetect(SO);
+
+Employee eEmployee, *pEmployee;
+pEmployee = &eEmployee;
+
+Section eSection, *pSection;
+pSection = &eSection;
+
+//Employee employee, *oneEmployee;
+//oneEmployee = &employee;
+
+pEmployee=(Employee*)malloc(sizeof(eEmployee)*LENGTH_MAX);
+pSection=(Section*)malloc(sizeof(eSection)*5);
+
+
+if(pEmployee==NULL)
+{
+    return 1;
+}
+
+if (pSection==NULL)
+{
+    return 1;
+}
+
+initEmployee(pEmployee,LENGTH_MAX);
+hardcoreEmployee(pEmployee);
+hardcoreSection(pSection);
+
 
 int opc;
 
 do{
-system("cls");
-system("clear");
-
-int ok;
-int ch;
+osDetect(SO);
 
 printf("\n======================================");
 printf("\nSeleccione la Operacion a Realizar");
 printf("\n======================================\n");
 printf("\n1. Altas");
-printf("\n2. Modificar");
-printf("\n3. Baja");
-printf("\n4. Informes");
-printf("\n5. Salir");
+printf("\n\n======================================");
+printf("\n=====M O D I F I C A C I O N E S======");
+printf("\n======================================\n");
+printf("\n2. Modifcar Nombre de Empleado");
+printf("\n3. Modificar Apellido de Empleado");
+printf("\n4. Modificar Sueldo de Empleado");
+printf("\n5. Modificar Sector de Empleado");
+printf("\n\n======================================");
+printf("\n==============B A J A S===============");
+printf("\n======================================\n");
+printf("\n6. Baja Empleado");
+printf("\n\n======================================");
+printf("\n=============I N F O R M E S==========");
+printf("\n======================================\n");
+printf("\n7. Listar Empleados");
+printf("\n8. Listar Sectores");
+printf("\n9. Listar Empleados por Sector");
+printf("\n10.Listar Ordenado por Nombre y Sector");
+printf("\n11.Listar Alfabeticamente");
+printf("\n12.Listar Sueldos Altos");
+printf("\n13.Listar por Salarios");
+printf("\n\n======================================\n");
+printf("\n14. Salir");
 printf("\n\n======================================\n");
 
-do
+opc=optionValid();
+printf("\n======================================\n");
+
+switch(opc)
+{
+
+case 1: addEmployee(pEmployee,LENGTH_MAX); break;
+
+case 2: editEmployeeName(pEmployee,LENGTH_MAX); break;
+
+case 3: editEmployeeLastName(pEmployee, LENGTH_MAX); break;
+
+case 4: editEmployeeSalary(pEmployee,LENGTH_MAX); break;
+
+case 5: editEmployeeSection(pEmployee,LENGTH_MAX); break;
+
+case 6: eraseEmployee(pEmployee,LENGTH_MAX); break;
+
+case 7: showEmployees(pEmployee,LENGTH_MAX); break;
+
+case 8: showSection(pSection); break;
+
+case 9: showEmployeeBySection(pEmployee,LENGTH_MAX,pSection,TAM_SECTION); break;
+
+case 10: sortEmployeesBySectionByName(pEmployee,LENGTH_MAX,pSection,TAM_SECTION); break;
+
+case 11: sortEmployeeByNameOrder(pEmployee,LENGTH_MAX); break;
+
+case 12: showGreatestSalary(pEmployee,LENGTH_MAX,pSection,TAM_SECTION); break;
+
+case 13: sortBySalary(pEmployee,LENGTH_MAX);
+}
+}while(opc != 14);
+
+return 0;
+
+}
+
+/** \brief Funcion getString
+ *
+ * \param recibe una cadena de caracteres.-
+ * \param recibe como parametro un puntero a string.-
+ * \param recibe la longitud de la cadena de caracteres (cantidad de caracteres+1 caracter del salto de carro).-
+ * \return no devuelve nada.-
+ *
+ */
+
+void getString(char* string, int lengh)
+{
+char String[lengh];
+
+fgets(String, lengh, stdin);
+fflush(stdin);
+
+
+}
+
+/** \brief Funcion osDetect
+ *
+ * \param recibe una cadena de caracteres.-
+ * \param compara la cadena, si es Linux usa un comando, si es Windows, usa otro comando.-
+ * \return no devuelve nada.-
+ *
+ */
+
+
+void osDetect(char* string)
+{
+
+
+    if(strcmp(string,"Linux")==0)
+    {
+        system("clear");
+    }
+
+    if(strcmp(string,"Windows")==0)
+    {
+        system("cls");
+
+    }
+
+    if(strcmp(string,"MsWindows")==0)
+    {
+        system("pause");
+    }
+
+}
+
+void wait(char* string)
+{
+
+    if(strcmp(string,"Linux")==0)
+    {
+
+    printf("\nPresione una tecla para continuar...");
+    getchar();
+    getchar();
+
+    }
+
+    if(strcmp(string,"Windows")==0)
+    {
+        system("pause");
+    }
+
+    if(strcmp(string,"MsWindows")==0)
+    {
+        system("pause");
+    }
+}
+
+
+int optionValid()
+{
+   int ok;
+   int ch;
+   int opc;
+
+    do
     {
       printf("\nOpcion: ");
       fflush(stdout);
       if ((ok = scanf("%d", &opc)) == EOF)
-         return EXIT_FAILURE;
+         return 1;
 
 
       if ((ch = getchar()) != '\n')
@@ -304,20 +475,76 @@ do
          while ((ch = getchar()) != EOF && ch != '\n');
       }
    }while(!ok);
-printf("\n======================================\n");
 
-switch(opc)
-{
-
-case 1:  break;
-case 2:  break;
-case 3:  break;
-case 4:  break;
-
+   return opc;
 }
-}while(opc != 5);
 
-return 0;
 
+int intValid(char* string)
+{
+   int ok;
+   int ch;
+   int num;
+
+    do
+    {
+      printf("%s: ", string);
+      fflush(stdout);
+
+      if ((ok = scanf("%d", &num)) == EOF)
+       {
+           return 1;
+       }
+
+      if ((ch = getchar()) != '\n')
+      {
+         ok = 0;
+
+         while ((ch = getchar()) != EOF && ch != '\n');
+      }
+   }while(!ok);
+
+   return num;
+}
+
+int openFileRead(char* string)
+{
+    FILE *pArch;
+
+    if((pArch=fopen("string","rb"))==NULL)
+    {
+        printf("\nNO ES POSIBLE ABRIR EL ARCHIVO!!");
+        return 1;
+    }
+
+    if((fclose(pArch))==-1)
+    {
+        printf("\nNO ES POSIBLE CERRAR EL ARCHIVO!!");
+    }
+
+    else
+    {
+        printf("\nEL ARCHIVO SE CERRO CON EXITO!!");
+    }
+
+    return 0;
+}
+
+int openFileWrite(char* string)
+{
+    FILE *pArch;
+
+    if((pArch=fopen("string","rb"))==NULL)
+    {
+        if((pArch=fopen("string","wb"))==NULL)
+        {
+            printf("\nNO ES POSIBLE ABRIR EL ARCHIVO!!");
+            return 1;
+        }
+
+        fclose(pArch);
+    }
+
+    return 0;
 }
 

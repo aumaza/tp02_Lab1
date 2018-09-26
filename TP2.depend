@@ -1,9 +1,11 @@
 # depslib dependency file v1.0
-1537096072 source:/home/augusto/Proyectos/TP2/main.c
+1537625938 source:/home/augusto/Proyectos/TP2/main.c
 	<stdio.h>
 	<stdlib.h>
 	"Employee.h"
 	"misFunciones.h"
+
+1537826194 nes.h"
 
 1537097883 /home/augusto/Proyectos/TP2/Employee.h
 
@@ -13,16 +15,90 @@
 	<conio.h>
 	"Employee.h"
 
-1537096035 source:/home/augusto/Proyectos/TP2/Employee.c
+1537826024 h"
+
+1537108070 source:/home/augusto/Proyectos/TP2/Employee.c
 	<stdio.h>
 	<stdlib.h>
 	<conio.h>
 	"Employee.h"
 	"misFunciones.h"
 
-1537095689 /home/augusto/Proyectos/TP2/misFunciones.h
+1537626239 /home/augusto/Proyectos/TP2/misFunciones.h
 
 1537096057 source:/home/augusto/Proyectos/TP2/misFunciones.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<ctype.h>
+	<conio.h>
+	"misFunciones.h"
+	"Employee.h"
+
+1537797685 source:c:\users\aumaza_mecon\documents\test\tp2\main.c
+	<stdio.h>
+	<stdlib.h>
+	"Employee.h"
+	"misFunciones.h"
+
+1537813301 c:\users\aumaza_mecon\documents\test\tp2\employee.h
+
+1537810941 c:\users\aumaza_mecon\documents\test\tp2\misfunciones.h
+
+1537813374 source:c:\users\aumaza_mecon\documents\test\tp2\misfunciones.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<ctype.h>
+	<conio.h>
+	"misFunciones.h"
+	"Employee.h"
+
+1537797686 source:c:\test\tp2\main.c
+	<stdio.h>
+	<stdlib.h>
+	"Employee.h"
+	"misFunciones.h"
+
+1537825858 c:\test\tp2\employee.h
+
+1537810942 c:\test\tp2\misfunciones.h
+
+1537826024 source:c:\test\tp2\misfunciones.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<ctype.h>
+	<conio.h>
+	"misFunciones.h"
+	"Employee.h"
+
+1537826194 source:c:\test\tp2\employee.c
+	<stdio.h>
+	<stdlib.h>
+	<conio.h>
+	"Employee.h"
+	"misFunciones.h"
+
+1537885267 source:/home/augusto/Proyectos/TP2/Employee.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<conio.h>
+	"Employee.h"
+	"misFunciones.h"
+
+1537899605 /home/augusto/Proyectos/TP2/Employee.h
+
+1537800142 /home/augusto/Proyectos/TP2/misFunciones.h
+
+1537834215 source:/home/augusto/Proyectos/TP2/main.c
+	<stdio.h>
+	<stdlib.h>
+	"Employee.h"
+	"misFunciones.h"
+
+1537907331 source:/home/augusto/Proyectos/TP2/misFunciones.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>

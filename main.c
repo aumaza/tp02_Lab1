@@ -5,8 +5,6 @@
 
 int main()
 {
-typedef struct Employee list, *pEmployee;
-pEmployee = &list;
 
     optionMain();
     return 0;
