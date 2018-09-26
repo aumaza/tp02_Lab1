@@ -580,44 +580,6 @@ void showSection(Section* pSection)
 }
 
 
-/*int editMain()
-{
-osDetect(SO);
-
-int opc;
-
-do{
-osDetect(SO);
-
-printf("\n======================================");
-printf("\nSeleccione la Operacion a Realizar");
-printf("\n======================================\n");
-printf("\n1. Modificar Nombre Empleado");
-printf("\n2. Modificar Apellido Empleado");
-printf("\n3. Modificar Sector Empleado");
-printf("\n4. Modificar Salario");
-printf("\n5. Salir");
-printf("\n\n======================================\n");
-
-opc=optionValid();
-printf("\n======================================\n");
-
-switch(opc)
-{
-
-case 1: editEmployeeName(pEmployee,LENGTH_MAX); break;
-case 2: editEmployeeLastName(pEmployee,LENGTH_MAX); break;
-case 3: editEmployeeSection(pEmployee,LENGTH_MAX); break;
-case 4: editEmployeeSalary(pEmployee,LENGTH_MAX); break;
-
-}
-}while(opc != 5);
-
-return 0;
-
-}*/
-
-
 void showEmployeeBySection(Employee* pEmployee, int tam, Section* pSection, int tamSection)
 {
     int i;

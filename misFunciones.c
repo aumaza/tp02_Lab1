@@ -507,36 +507,15 @@ int intValid(char* string)
    return num;
 }
 
-int openFileRead(char* string)
+
+
+int openFileWrite(char* string, void* x, int tam)
 {
     FILE *pArch;
 
-    if((pArch=fopen("string","rb"))==NULL)
+    if((pArch=fopen("string","wt"))==NULL)
     {
-        printf("\nNO ES POSIBLE ABRIR EL ARCHIVO!!");
-        return 1;
-    }
-
-    if((fclose(pArch))==-1)
-    {
-        printf("\nNO ES POSIBLE CERRAR EL ARCHIVO!!");
-    }
-
-    else
-    {
-        printf("\nEL ARCHIVO SE CERRO CON EXITO!!");
-    }
-
-    return 0;
-}
-
-int openFileWrite(char* string)
-{
-    FILE *pArch;
-
-    if((pArch=fopen("string","rb"))==NULL)
-    {
-        if((pArch=fopen("string","wb"))==NULL)
+        if((pArch=fopen("string","wt"))==NULL)
         {
             printf("\nNO ES POSIBLE ABRIR EL ARCHIVO!!");
             return 1;
@@ -545,6 +524,59 @@ int openFileWrite(char* string)
         fclose(pArch);
     }
 
+    fprintf(pArch,"EMPLEADOS");
+    for(int i=0; i<tam; i++)
+    {
+        fprintf(pArch,"\n\nLegajo: ");
+        fwrite(x,1,tam,pArch);
+        fprintf(pArch,"\nNombre: ");
+        fwrite(x,1,tam,pArch);
+        fprintf(pArch,"\nApellido: ");
+        fwrite(x,1,tam,pArch);
+        fprintf(pArch,"\nSalario: ");
+        fwrite(x,1,tam,pArch);
+        fprintf(pArch,"\nSexo: ");
+        fwrite(x,1,tam,pArch);
+        fprintf(pArch,"\nSector ID: ");
+        fwrite(x,1,tam,pArch);
+    }
+
+
     return 0;
 }
 
+int readWriteOpenMain()
+{
+osDetect(SO);
+
+int opc;
+
+do{
+osDetect(SO);
+
+printf("\n======================================");
+printf("\nSeleccione la Operacion a Realizar");
+printf("\n======================================\n");
+printf("\n1. Crear Archivo");
+printf("\n2. Guardar Archivo");
+printf("\n3. Abrir Archivo");
+printf("\n4. Salir");
+printf("\n\n======================================\n");
+
+opc=optionValid();
+printf("\n======================================\n");
+
+switch(opc)
+{
+
+//case 1: break;
+//case 2: break;
+//case 3: break;
+//case 4: break;
+
+}
+}while(opc != 5);
+
+return 0;
+
+}

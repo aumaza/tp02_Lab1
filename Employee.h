@@ -37,7 +37,6 @@ void editEmployeeLastName(Employee* pEmployee, int tam);
 void editEmployeeName(Employee* pEmployee, int tam);
 void hardcoreEmployee(Employee* pEmployee);
 void editEmployeeSection(Employee* pEmployee, int tam);
-int editMain();
 void showEmployeeBySection(Employee* pEmployee, int tam, Section* pSection, int tamSection);
 int selectSection(Section* pSection, int tam);
 void loadDescription(Section* pSection, int tam, int idSection, char* string);
