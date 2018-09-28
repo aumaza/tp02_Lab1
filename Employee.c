@@ -1085,8 +1085,8 @@ void showSalaryPromBySector(Employee* pEmployee, int tam, Section* pSection, int
     int idSection;
     char description[20];
     float sumSalary=0;
-    //float prom;
-    //int count=0;
+    float prom;
+    int count=0;
     int flag = 0;
 
     idSection = selectSection(pSection,tamSection);
@@ -1111,6 +1111,7 @@ printf("\n======================================================================
 
 
               sumSalary+=pEmployee[i].salary;
+              count++;
               showEmployee(pEmployee+i, pSection,tamSection);
 
 
@@ -1119,11 +1120,12 @@ printf("\n======================================================================
 
         }
 
-//prom=sumSalary/countEmployee;
+prom=sumSalary/count;
 printf("\n\n========================================================================================\n");
 printf("\nTOTAL DE SALARIOS DEL SECTOR: %.2f", sumSalary);
+printf("\n========================================================================================\n");
 //printf("\n%d", count);
-//printf("\nEL PROMEDIO DE SUELDOS DEL SECTOR: %s ES: %.2f", description, prom);
+printf("\nEL PROMEDIO DE SUELDOS DEL SECTOR %s ES: %.2f", description, prom);
 printf("\n========================================================================================\n");
 
     if(flag == 0)
