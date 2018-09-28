@@ -80,7 +80,7 @@
 	"Employee.h"
 	"misFunciones.h"
 
-1537885267 source:/home/augusto/Proyectos/TP2/Employee.c
+1538146775 source:/home/augusto/Proyectos/TP2/Employee.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -88,9 +88,9 @@
 	"Employee.h"
 	"misFunciones.h"
 
-1537899605 /home/augusto/Proyectos/TP2/Employee.h
+1538142909 /home/augusto/Proyectos/TP2/Employee.h
 
-1537800142 /home/augusto/Proyectos/TP2/misFunciones.h
+1537928119 /home/augusto/Proyectos/TP2/misFunciones.h
 
 1537834215 source:/home/augusto/Proyectos/TP2/main.c
 	<stdio.h>
@@ -98,7 +98,7 @@
 	"Employee.h"
 	"misFunciones.h"
 
-1537907331 source:/home/augusto/Proyectos/TP2/misFunciones.c
+1538139847 source:/home/augusto/Proyectos/TP2/misFunciones.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>

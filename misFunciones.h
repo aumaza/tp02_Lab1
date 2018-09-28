@@ -17,6 +17,6 @@ void wait(char* string);
 int optionValid();
 int intValid(char* string);
 int openFileRead(char* string);
-int openFileWrite(char* string, void* x, int tam);
+int openFileWrite(char* string);
 
 #endif // MISFUNCIONES_H_INCLUDED

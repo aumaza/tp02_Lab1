@@ -28,8 +28,8 @@ int searchEmployee(Employee* pEmployee, int tam, int file);
 void addEmployee(Employee* pEmployee, int tam);
 void hardcoreSection(Section* pSection);
 void showSection(Section* pSection);
-//void showEmployee(Employee* pEmployee);
-void showEmployees(Employee* pEmployee, int tam);
+void showEmployee(Employee* pEmployee, Section* pSection, int tamSection);
+void showEmployees(Employee* pEmployee, int tam, Section* pSection, int tamSection);
 void showEmployeeByReference(Employee* oneEmployee);
 void eraseEmployee(Employee* pEmployee, int tam);
 void editEmployeeSalary(Employee* pEmployee, int tam);
@@ -37,6 +37,7 @@ void editEmployeeLastName(Employee* pEmployee, int tam);
 void editEmployeeName(Employee* pEmployee, int tam);
 void hardcoreEmployee(Employee* pEmployee);
 void editEmployeeSection(Employee* pEmployee, int tam);
+int editMain();
 void showEmployeeBySection(Employee* pEmployee, int tam, Section* pSection, int tamSection);
 int selectSection(Section* pSection, int tam);
 void loadDescription(Section* pSection, int tam, int idSection, char* string);
@@ -45,7 +46,11 @@ void sortEmployeeByNameOrder(Employee* pEmployee, int cant);
 void loadDescriptionSection(Section* pSection, int tam, int idSection, char* string);
 void showGreatestSalary(Employee* pEmployee, int tam, Section* pSection, int tamSection);
 void sortBySalary(Employee* pEmployee, int tam);
-
+void saveEmployee(char* path, Employee* pEmployee, int tam);
+void employeeParser(char* path, Employee* pEmployee, int tam);
+void editEmployeeStatus(Employee* pEmployee, int tam);
+void showEmployeesDown(Employee* pEmployee, int tam, Section* pSection, int tamSection);
+void showSalaryPromBySector(Employee* pEmployee, int tam, Section* pSection, int tamSection);
 
 /*typedef struct Employee list, *pEmployee;
 pEmployee = &list;*/

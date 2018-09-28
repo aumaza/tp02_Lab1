@@ -115,6 +115,12 @@ int searchEmployee(Employee* pEmployee, int tam, int file)
             index = i;
             break;
         }
+
+        if((pEmployee+i)->file == file && (pEmployee+i)->isEmpty == FREE)
+        {
+            index = i;
+            break;
+        }
     }
 
     return index;
@@ -143,7 +149,7 @@ void addEmployee(Employee* pEmployee, int tam)
     {
         osDetect(SO);
         printf("\n======================================\n");
-        printf("\nIngrese legajo: ");
+        printf("\nINGRESE LEGAJO: ");
         scanf("%d", &file);
         printf("\n======================================\n\n");
         wait(SO);
@@ -153,7 +159,7 @@ void addEmployee(Employee* pEmployee, int tam)
         {
             osDetect(SO);
             printf("\n================================================\n");
-            printf("\nYa existe un empleado con el Legajo Nro: %d\n\n", file);
+            printf("\nNRO DE LEGAJO EXISTENTE: %d\n\n", file);
             printf("\n================================================\n\n");
             //showEmployee(*(pEmployee + is));
             wait(SO);
@@ -162,28 +168,33 @@ void addEmployee(Employee* pEmployee, int tam)
         else
         {
             newEmployee.file = file;
-            printf("\nIngrese Nombre: ");
+            printf("\nINGRESE NOMBRE: ");
             fflush(stdin);
             fgets(newEmployee.name,51,stdin);
             removeNewLine(newEmployee.name);
             stringToUpper(newEmployee.name);
+            printf("\n=============================\n");
 
-            printf("\nIngrese Apellido: ");
+            printf("\nINGRESE APELLIDO: ");
             fflush(stdin);
             fgets(newEmployee.lastName,51,stdin);
             removeNewLine(newEmployee.lastName);
             stringToUpper(newEmployee.lastName);
+            printf("\n=============================\n");
 
-            printf("\nIngrese sexo: ");
+            printf("\nINGRESE SEXO: ");
             fflush(stdin);
             scanf("%c", &newEmployee.sex);
+            printf("\n=============================\n");
 
-            printf("\nIngrese sueldo: ");
+            printf("\nINGRESE SUELDO: ");
             scanf("%f", &newEmployee.salary);
+            printf("\n=============================\n");
 
-            printf("\nIngrese ID Sector: ");
+            printf("\nINGRESE ID SECTOR: ");
             fflush(stdin);
             scanf("%d", &newEmployee.idSection);
+            printf("\n=============================\n");
             newEmployee.isEmpty = BUSY;
 
             *(pEmployee+index) = newEmployee;
@@ -194,60 +205,83 @@ void addEmployee(Employee* pEmployee, int tam)
 }
 
 
-void showEmployee(Employee* pEmployee, Section* pSection, int tam)
+void showEmployee(Employee* pEmployee, Section* pSection, int tamSection)
 {
-    osDetect(SO);
-printf("\n==============================================================================");
-printf("\n===========================E M P L E A D O====================================");
-printf("\n==============================================================================");
-printf("\nLegajo    \tNombre    \tApellido  \tSexo  \tSalario   \tSector");
-printf("\n==============================================================================");
+
+char description[20];
+
+loadDescriptionSection(pSection,tamSection,pEmployee->idSection,description);
+
 printf("\n%d", pEmployee->file);
 printf("\t%12s", pEmployee->name);
 printf("\t%15s", pEmployee->lastName);
 printf("\t%10c", pEmployee->sex);
 printf("\t%8.2f", pEmployee->salary);
-printf("\t%6s", pSection->description);
-printf("\n==============================================================================");
+printf("\t%6s", description);
 
-    wait(SO);
 }
 
 
-void showEmployees(Employee* pEmployee, int tam)
+void showEmployees(Employee* pEmployee, int tam, Section* pSection, int tamSection)
 {
     osDetect(SO);
 
-printf("\n==============================================================================");
-printf("\n===========================E M P L E A D O S==================================");
-printf("\n==============================================================================");
+    char description[20];
+
+loadDescriptionSection(pSection,tamSection,pEmployee->idSection,description);
+
+printf("\n========================================================================================");
+printf("\n===========================E M P L E A D O S============================================");
+printf("\n========================================================================================");
 printf("\nLegajo    \tNombre    \tApellido  \tSexo  \tSalario   \tSector");
-printf("\n==============================================================================");
+printf("\n========================================================================================");
 
    for(int i=0; i<tam; i++)
     {
         if((pEmployee + i)->isEmpty == 1)
         {
 
-            printf("\n%d", (pEmployee+i)->file);
-            printf("\t%12s", (pEmployee+i)->name);
-            printf("\t%15s", (pEmployee+i)->lastName);
-            printf("\t%10c", (pEmployee+i)->sex);
-            printf("\t%8.2f", (pEmployee+i)->salary);
-            printf("\t%4d", (pEmployee+i)->idSection);
+          showEmployee(pEmployee+i,pSection,tamSection);
 
         }
        }
-       printf("\n==============================================================================");
+printf("\n========================================================================================");
     printf("\n\n");
     wait(SO);
 }
 
 
+void showEmployeesDown(Employee* pEmployee, int tam, Section* pSection, int tamSection)
+{
+    osDetect(SO);
+
+    char description[20];
+    loadDescriptionSection(pSection,tamSection,pEmployee->idSection,description);
+
+printf("\n========================================================================================");
+printf("\n===========================E M P L E A D O S============================================");
+printf("\n========================================================================================");
+printf("\nLegajo    \tNombre    \tApellido  \tSexo  \tSalario   \tSector");
+printf("\n========================================================================================");
+
+   for(int i=0; i<tam; i++)
+    {
+        if(pEmployee[i].isEmpty == FREE && pEmployee[i].file>0 && pEmployee[i].file<=tam)
+        {
+           showEmployee(pEmployee+i,pSection,tamSection);
+        }
+    }
+
+printf("\n========================================================================================");
+    printf("\n\n");
+    wait(SO);
+}
 
 void showEmployeeByReference(Employee* oneEmployee)
 {
     osDetect(SO);
+
+
     printf("\n======================================================================");
     printf("\nLEGAJO    NOMBRE        APELLIDO      SEXO      SALARIO       SECTOR");
     printf("\n======================================================================\n");
@@ -263,25 +297,25 @@ void eraseEmployee(Employee* pEmployee, int tam)
     osDetect(SO);
 
     int file;
-    int indice;
+    int index;
     char resp;
 
-    printf("\nIngrese legajo: ");
+    printf("\nINGRESE LEGAJO: ");
     scanf("%d", &file);
     getchar();
 
-    indice = searchEmployee(pEmployee, tam, file);
+    index = searchEmployee(pEmployee, tam, file);
 
 
-    if(indice == -1)
+    if(index == -1)
     {
-        printf("\nNo hay ningun empleado con el legajo %d", file);
+        printf("\nNO EXISTE EL LEGAJO NRO: %d", file);
 
     }
     else
     {
-        showEmployeeByReference(pEmployee + indice);
-         wait(SO);
+        showEmployeeByReference(pEmployee+index);
+        wait(SO);
 
         printf("\n=======================================================");
         printf("\nATENCION!! -- SE VA A ELIMINAR UN REGISTRO!!");
@@ -293,11 +327,11 @@ void eraseEmployee(Employee* pEmployee, int tam)
 
         if(resp != 's')
         {
-            printf("\nBorrado cancelado\n");
+            printf("\nBORRADO CANCELADO\n");
         }
         else
         {
-            (pEmployee + indice)->isEmpty = FREE;
+            (pEmployee + index)->isEmpty = FREE;
             printf("\nREGISTRO ELIMINADO CON EXITO\n\n");
             printf("\n=======================================================");
         }
@@ -314,7 +348,7 @@ void editEmployeeSalary(Employee* pEmployee, int tam)
     char resp;
     float newSalary;
 
-    printf("\nIngrese legajo requerido: ");
+    printf("\nINGRESE LEGAJO A MODIFICAR: ");
     scanf("%d", &file);
     getchar();
 
@@ -322,24 +356,24 @@ void editEmployeeSalary(Employee* pEmployee, int tam)
 
     if(index == -1)
     {
-        printf("\nNo hay ningun empleado con el legajo %d", file);
+        printf("\nNO EXISTE EL LEGAJO NRO: %d", file);
     }
     else
     {
         showEmployeeByReference(pEmployee + index);
 
-        printf("\n\nModifica sueldo?(s/n): ");
+        printf("\n\nMODIFICA SALARIO?(s/n): ");
         fflush(stdin);
         scanf("%c", &resp);
         getchar();
 
         if(resp != 's')
         {
-            printf("\nModificacion cancelada\n");
+            printf("\nMODIFICACION CANCELADA\n");
         }
         else
         {
-            printf("\nIngrese nuevo sueldo: ");
+            printf("\nINGRESE NUEVO SALARIO: ");
             fflush(stdin);
             scanf("%f", &newSalary);
             getchar();
@@ -365,7 +399,7 @@ void editEmployeeName(Employee* pEmployee, int tam)
     char resp;
     char newName[51];
 
-    printf("\nIngrese legajo requerido: ");
+    printf("\nINGRESE EL LEGAJO A MODIFICAR: ");
     scanf("%d", &file);
     getchar();
 
@@ -373,24 +407,24 @@ void editEmployeeName(Employee* pEmployee, int tam)
 
     if(index == -1)
     {
-        printf("\nNo hay ningun empleado con el legajo %d", file);
+        printf("\nNO EXISTE EL LEGAJO NRO: %d", file);
     }
     else
     {
         showEmployeeByReference(pEmployee + index);
 
-        printf("\nModifica el Nombre?(s/n): ");
+        printf("\nMODIFICA EL NOMBRE?(s/n): ");
         fflush(stdin);
         scanf("%c", &resp);
         getchar();
 
         if(resp != 's')
         {
-            printf("\nModificacion cancelada\n");
+            printf("\nMODIFICACION CANCELADA\n");
         }
         else
         {
-            printf("\nIngrese Nombre: ");
+            printf("\nINGRESE NOMBRE: ");
             fflush(stdin);
             fgets(newName,51,stdin);
             removeNewLine(newName);
@@ -417,7 +451,7 @@ void editEmployeeLastName(Employee* pEmployee, int tam)
     char resp;
     char newLastName[51];
 
-    printf("\nIngrese legajo requerido: ");
+    printf("\nINGRESE LEGAJO A MODIFICAR: ");
     scanf("%d", &file);
     getchar();
 
@@ -425,24 +459,24 @@ void editEmployeeLastName(Employee* pEmployee, int tam)
 
     if(index == -1)
     {
-        printf("\nNo hay ningun empleado con el legajo %d", file);
+        printf("\nNO EXISTE EL LEGAJO NRO: %d", file);
     }
     else
     {
         showEmployeeByReference(pEmployee + index);
 
-        printf("\n\nModifica el Apellido?(s/n): ");
+        printf("\n\nMODIFICA APELLIDO?(s/n): ");
         fflush(stdin);
         scanf("%c", &resp);
         getchar();
 
         if(resp != 's')
         {
-            printf("\nModificacion cancelada\n");
+            printf("\nMODIFICACION CANCELADA\n");
         }
         else
         {
-            printf("\nIngrese Apellido: ");
+            printf("\nINGRESE APELLIDO: ");
             fgets(newLastName,51,stdin);
             fflush(stdin);
             removeNewLine(newLastName);
@@ -470,7 +504,7 @@ void editEmployeeSection(Employee* pEmployee, int tam)
     int newSection;
 
 
-    printf("\nIngrese legajo a modificar: ");
+    printf("\nINGRESE LEGAJO A MODIFICAR: ");
     scanf("%d", &file);
     getchar();
 
@@ -478,7 +512,7 @@ void editEmployeeSection(Employee* pEmployee, int tam)
 
     if(index == -1)
     {
-        printf("\nNo hay ningun empleado con el legajo %d", file);
+        printf("\nNO EXISTE EL LEGAJO NRO: %d", file);
 
     }
 
@@ -487,18 +521,18 @@ void editEmployeeSection(Employee* pEmployee, int tam)
     {
         showEmployeeByReference(pEmployee + index);
 
-        printf("\n\nModifica el Sector?(s/n): ");
+        printf("\n\nMODIFICA EL SECTOR?(s/n): ");
         fflush(stdin);
         scanf("%c", &resp);
         getchar();
 
         if(resp != 's')
         {
-            printf("\nModificacion cancelada\n");
+            printf("\nMODIFICACION CANCELADA\n");
         }
         else
         {
-            printf("\nIngrese ID Sector: ");
+            printf("\nINGRESE ID SECTOR ");
             fflush(stdin);
             scanf("%d", &newSection);
             getchar();
@@ -515,6 +549,63 @@ void editEmployeeSection(Employee* pEmployee, int tam)
     wait(SO);
 }
 
+
+void editEmployeeStatus(Employee* pEmployee, int tam)
+{
+    osDetect(SO);
+    int file;
+    int index=0;
+    char resp;
+    int newStatus;
+
+
+    printf("\nINGRESE LEGAJO A MODIFICAR: ");
+    scanf("%d", &file);
+    getchar();
+
+
+    index = searchEmployee(pEmployee, tam, file);
+
+    if(index == -1)
+    {
+        printf("\nNO EXISTE EL LEGAJO NRO: %d", file);
+
+    }
+
+
+      else
+        {
+
+        showEmployeeByReference(pEmployee + index);
+
+        printf("\n\nMODIFICA EL ESTADO?(s/n): ");
+        fflush(stdin);
+        scanf("%c", &resp);
+        getchar();
+
+        if(resp != 's')
+        {
+            printf("\nMODIFICACION CANCELADA\n");
+        }
+        else
+        {
+            printf("\nINGRESE EL NUEVO ESTADO(Alta(1) - Baja(0): ");
+            fflush(stdin);
+            scanf("%d", &newStatus);
+            getchar();
+
+
+            (pEmployee + index)->isEmpty=newStatus;
+            printf("\nPRESIONE [ENTER] PARA APLICAR LOS CAMBIOS");
+            getchar();
+            printf("\nMODIFICACION EXITOSA. LOS CAMBIOS SE HAN REGISTRADO\nPRESIONE [ENTER] PARA VERIFICAR LOS CAMBIOS\n\n");
+            getchar();
+            showEmployeeByReference(pEmployee + index);
+        }
+        }
+
+    wait(SO);
+}
 
 
 void hardcoreEmployee(Employee* pEmployee)
@@ -544,7 +635,7 @@ void hardcoreSection(Section* pSection)
     int i;
     Section eSection[]=
     {
-        {1,"RR.HH"},
+        {1,"RECURSOS HUMANOS"},
         {2,"SISTEMAS"},
         {3,"CONTABILIDAD"},
         {4,"ADMINISTRACION"},
@@ -580,6 +671,44 @@ void showSection(Section* pSection)
 }
 
 
+/*int editMain()
+{
+osDetect(SO);
+
+int opc;
+
+do{
+osDetect(SO);
+
+printf("\n======================================");
+printf("\nSeleccione la Operacion a Realizar");
+printf("\n======================================\n");
+printf("\n1. Modificar Nombre Empleado");
+printf("\n2. Modificar Apellido Empleado");
+printf("\n3. Modificar Sector Empleado");
+printf("\n4. Modificar Salario");
+printf("\n5. Salir");
+printf("\n\n======================================\n");
+
+opc=optionValid();
+printf("\n======================================\n");
+
+switch(opc)
+{
+
+case 1: editEmployeeName(pEmployee,LENGTH_MAX); break;
+case 2: editEmployeeLastName(pEmployee,LENGTH_MAX); break;
+case 3: editEmployeeSection(pEmployee,LENGTH_MAX); break;
+case 4: editEmployeeSalary(pEmployee,LENGTH_MAX); break;
+
+}
+}while(opc != 5);
+
+return 0;
+
+}*/
+
+
 void showEmployeeBySection(Employee* pEmployee, int tam, Section* pSection, int tamSection)
 {
     int i;
@@ -587,20 +716,25 @@ void showEmployeeBySection(Employee* pEmployee, int tam, Section* pSection, int 
     char description[20];
     int flag = 0;
 
-    idSection = selectSection(pSection,5);
+    idSection = selectSection(pSection,tamSection);
     osDetect(SO);
 
-    loadDescription(pSection,TAM_SECTION,idSection,description);
+    loadDescription(pSection,tamSection,idSection,description);
 
     //osDetect(SO);
-    //printf("Empleados del sector %s\n\n", description);
+//printf("EMPLEADOS DEL SECTOR %s\n\n", description);
+printf("\n========================================================================================");
+printf("\n===========================E M P L E A D O S============================================");
+printf("\n========================================================================================");
+printf("\nLegajo    \tNombre    \tApellido  \tSexo  \tSalario   \tSector");
+printf("\n========================================================================================\n");
 
         for(i=0; i<5 ; i++)
         {
 
             if((pEmployee+i)->isEmpty == 1 && (pEmployee+i)->idSection == idSection)
             {
-            showEmployee((pEmployee+i), pSection,TAM_SECTION);
+            showEmployee(pEmployee+i, pSection,tamSection);
             flag = 1;
             }
         }
@@ -620,14 +754,15 @@ int selectSection(Section* pSection, int tam)
 
     int idSection;
 
-    printf("\nSectores\n\n");
+    printf("\nSECTORES");
+    printf("\n==================\n");
 
     for(int i=0; i < tam; i++)
     {
         printf("%d %s\n", (pSection+i)->id, (pSection+i)->description);
     }
 
-    printf("\nSeleccione sector: ");
+    printf("\nSELECCIONE EL SECTOR: ");
     fflush(stdin);
     scanf("%d", &idSection);
     getchar();
@@ -648,8 +783,8 @@ int i;
             break;
         }
     }
-    printf("\nEmpleados de %s", string);
-    wait(SO);
+    printf("\nEMPLEADOS DE %s", string);
+    //wait(SO);
 }
 
 
@@ -672,30 +807,32 @@ void sortEmployeesBySectionByName(Employee* pEmployee,int tam, Section* pSection
 {
     int i;
     int j;
+    //int idSection;
     char descriptionI[20];
     char descriptionJ[20];
     Employee aux[tam];
 
 
-    for(i=0; i<tam -1; i++)
+    for(i=0; i<tam-1; i++)
     {
-        for(j = i + 1; j < tam; j++)
+        for(j=i+1; j<tam; j++)
         {
-            loadDescriptionSection(pSection,tamSection,(pSection+i)->id, descriptionI);//cargarDescripcion(sectores, tamSector, x[i].idSector, descripcionI);
-            loadDescriptionSection(pSection,tamSection, (pSection+j)->id, descriptionJ);//cargarDescripcion(sectores, tamSector, x[j].idSector, descripcionJ);
+            loadDescriptionSection(pSection,tamSection,(pSection+i)->id, descriptionI);
+            loadDescriptionSection(pSection,tamSection, (pSection+j)->id, descriptionJ);
 
-            if( strcmp(descriptionI, descriptionJ) > 0)
+            if((pEmployee+i)->isEmpty == 1 && pSection[i].id < pSection[j].id)
             {
                 aux[i] = *(pEmployee+i);
                 *(pEmployee+i) = *(pEmployee+j);
                 *(pEmployee+j) = aux[i];
             }
-            else if( strcmp(descriptionI, descriptionJ) == 0 && strcmp((pEmployee+i)->name, (pEmployee+j)->name) > 0)
+
+            /*else if (strcmp((pEmployee+i)->name, (pEmployee+j)->name) > 0)
             {
                 aux[i]=*(pEmployee+i);
                 *(pEmployee+i)=*(pEmployee+j);
                 *(pEmployee+j)=aux[i];
-            }
+            }*/
         }
     }
 
@@ -711,12 +848,7 @@ printf("\n======================================================================
   {
       if((pEmployee+i)->isEmpty == 1)
       {
-        printf("\n%d", (pEmployee+i)->file);
-        printf("\t%12s", (pEmployee+i)->name);
-        printf("\t%15s", (pEmployee+i)->lastName);
-        printf("\t%10c", (pEmployee+i)->sex);
-        printf("\t%8.2f", (pEmployee+i)->salary);
-        printf("\t%4d", (pEmployee+i)->idSection);
+        showEmployee(pEmployee+i, pSection,tamSection);
 
       }
     }
@@ -772,11 +904,18 @@ printf("\n======================================================================
 
 void showGreatestSalary(Employee* pEmployee, int tam, Section* pSection, int tamSection)
 {
-    float maxSalary;
+    osDetect(SO);
+    float maxSalary=0;
     char description[20];
     int flag;
     int i;
     int j;
+
+printf("\n========================================================================================");
+printf("\n===========================E M P L E A D O S============================================");
+printf("\n========================================================================================");
+printf("\nLegajo    \tNombre    \tApellido  \tSexo  \tSalario   \tSector");
+printf("\n========================================================================================");
 
     for(i=0; i<tamSection; i++)
          {
@@ -786,6 +925,8 @@ void showGreatestSalary(Employee* pEmployee, int tam, Section* pSection, int tam
          //printf("Sector %s\n", description);
 
          flag = 0;
+
+
 
          for(j=0; j<tam; j++)
          {
@@ -799,9 +940,10 @@ void showGreatestSalary(Employee* pEmployee, int tam, Section* pSection, int tam
          }
 
 
+
           for(int j=0; j < tam; j++)
             {
-                if( pEmployee[j].salary == maxSalary)
+                if( pEmployee[j].salary == maxSalary && pEmployee[j].idSection == pSection[i].id)
                 {
                 showEmployee((pEmployee+j), pSection, tamSection);
                 }
@@ -809,9 +951,10 @@ void showGreatestSalary(Employee* pEmployee, int tam, Section* pSection, int tam
 
 
           printf("\n\n");
-
     }
 
+printf("\n========================================================================================");
+wait(SO);
 }
 
 void sortBySalary(Employee* pEmployee, int tam)
@@ -855,6 +998,139 @@ printf("\n======================================================================
       }
     }
         printf("\n==============================================================================");
+    wait(SO);
+}
+
+
+void saveEmployee(char* path, Employee* pEmployee, int tam)
+{
+
+    FILE* fp;
+    int i;
+
+    fp = fopen(path, "w");
+
+    if(fp != NULL)
+    {
+
+        fprintf(fp, "file,name,lastName,sex,salary,idSection,isEmpty\n");
+
+        for(i=0; i<tam; i++)
+        {
+
+            fprintf(fp,"%d,%s,%s,%c,%.2f,%d,%d\n", pEmployee[i].file,  pEmployee[i].name,  pEmployee[i].lastName,  pEmployee[i].sex,  pEmployee[i].salary,  pEmployee[i].idSection,  pEmployee[i].isEmpty );
+
+        }
+
+        fclose(fp);
+
+    }
+printf("\nGUARDANDO...\n\n");
+wait(SO);
+}
+
+
+
+void employeeParser(char* path, Employee* pEmployee, int tam)
+{
+
+    FILE* fp;
+    Employee newEmployee;
+    int index;
+    int cant;
+    char buffer[6][128];
+
+    fp = fopen(path, "a+");
+
+    if(fp != NULL && pEmployee != NULL)
+    {
+
+        fscanf(fp,"%[^,],%[^,],%[^,],%[^,],%[^,],%[^,],%s\n", buffer[0],buffer[1],buffer[2],buffer[3],buffer[4],buffer[5],buffer[6]);
+
+        while( !feof(fp))
+        {
+
+            cant =  fscanf(fp,"%[^,],%[^,],%[^,],%[^,],%[^,],%[^,],%s\n", buffer[0],buffer[1],buffer[2],buffer[3],buffer[4],buffer[5],buffer[6]);
+
+            if(cant == 7)
+            {
+                newEmployee.file = atoi(buffer[0]);
+                strcpy(newEmployee.name, buffer[1]);
+                strcpy(newEmployee.lastName,buffer[2]);
+                newEmployee.sex = buffer[3][0];
+                newEmployee.salary = atof(buffer[4]);
+                newEmployee.idSection =  atoi(buffer[5]);
+                newEmployee.isEmpty =  atoi(buffer[6]);
+
+                index = searchFree(pEmployee, tam);
+
+                *(pEmployee+index) = newEmployee;
+
+
+            }
+            else
+            {
+                break;
+            }
+
+        }
+
+        fclose(fp);
+    }
+}
+
+void showSalaryPromBySector(Employee* pEmployee, int tam, Section* pSection, int tamSection)
+{
+    int i;
+    int idSection;
+    char description[20];
+    float sumSalary=0;
+    //float prom;
+    //int count=0;
+    int flag = 0;
+
+    idSection = selectSection(pSection,tamSection);
+
+    osDetect(SO);
+
+    loadDescription(pSection,tamSection,idSection,description);
+
+    //osDetect(SO);
+//printf("EMPLEADOS DEL SECTOR %s\n\n", description);
+printf("\n========================================================================================");
+printf("\n===========================E M P L E A D O S============================================");
+printf("\n========================================================================================");
+printf("\nLegajo    \tNombre    \tApellido  \tSexo  \tSalario   \tSector");
+printf("\n========================================================================================\n");
+
+        for(i=0; i<5 ; i++)
+        {
+
+            if((pEmployee+i)->isEmpty == 1 && (pEmployee+i)->idSection == idSection)
+            {
+
+
+              sumSalary+=pEmployee[i].salary;
+              showEmployee(pEmployee+i, pSection,tamSection);
+
+
+            flag = 1;
+            }
+
+        }
+
+//prom=sumSalary/countEmployee;
+printf("\n\n========================================================================================\n");
+printf("\nTOTAL DE SALARIOS DEL SECTOR: %.2f", sumSalary);
+//printf("\n%d", count);
+//printf("\nEL PROMEDIO DE SUELDOS DEL SECTOR: %s ES: %.2f", description, prom);
+printf("\n========================================================================================\n");
+
+    if(flag == 0)
+    {
+        printf("NO HAY EMPLEADOS EN EL SECTOR %s\n\n", description);
+    }
+
     wait(SO);
 }
 

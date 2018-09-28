@@ -304,8 +304,9 @@ if (pSection==NULL)
 }
 
 initEmployee(pEmployee,LENGTH_MAX);
-hardcoreEmployee(pEmployee);
+//hardcoreEmployee(pEmployee);
 hardcoreSection(pSection);
+employeeParser("/home/augusto/Proyectos/TP2/empleados.csv",pEmployee,LENGTH_MAX);
 
 
 int opc;
@@ -324,22 +325,26 @@ printf("\n2. Modifcar Nombre de Empleado");
 printf("\n3. Modificar Apellido de Empleado");
 printf("\n4. Modificar Sueldo de Empleado");
 printf("\n5. Modificar Sector de Empleado");
+printf("\n6. Modificar Estado (Alta/Baja)");
 printf("\n\n======================================");
 printf("\n==============B A J A S===============");
 printf("\n======================================\n");
-printf("\n6. Baja Empleado");
+printf("\n7. Baja Empleado");
 printf("\n\n======================================");
 printf("\n=============I N F O R M E S==========");
 printf("\n======================================\n");
-printf("\n7. Listar Empleados");
-printf("\n8. Listar Sectores");
-printf("\n9. Listar Empleados por Sector");
-printf("\n10.Listar Ordenado por Nombre y Sector");
-printf("\n11.Listar Alfabeticamente");
-printf("\n12.Listar Sueldos Altos");
-printf("\n13.Listar por Salarios");
+printf("\n8. Listar Empleados");
+printf("\n9. Listar Empleados de Baja");
+printf("\n10.Listar Sectores");
+printf("\n11.Listar Empleados por Sector");
+printf("\n12.Listar Ordenado por Nombre y Sector");
+printf("\n13.Listar Alfabeticamente");
+printf("\n14.Listar Sueldos  + Altos por Sector");
+printf("\n15.Listar por Salarios");
+printf("\n16.Promedios de Salarios por Sector");
+printf("\n17.Guardar Datos");
 printf("\n\n======================================\n");
-printf("\n14. Salir");
+printf("\n18. Salir");
 printf("\n\n======================================\n");
 
 opc=optionValid();
@@ -358,23 +363,31 @@ case 4: editEmployeeSalary(pEmployee,LENGTH_MAX); break;
 
 case 5: editEmployeeSection(pEmployee,LENGTH_MAX); break;
 
-case 6: eraseEmployee(pEmployee,LENGTH_MAX); break;
+case 6: editEmployeeStatus(pEmployee,LENGTH_MAX); break;
 
-case 7: showEmployees(pEmployee,LENGTH_MAX); break;
+case 7: eraseEmployee(pEmployee,LENGTH_MAX); break;
 
-case 8: showSection(pSection); break;
+case 8: showEmployees(pEmployee,LENGTH_MAX,pSection,TAM_SECTION); break;
 
-case 9: showEmployeeBySection(pEmployee,LENGTH_MAX,pSection,TAM_SECTION); break;
+case 9: showEmployeesDown(pEmployee,LENGTH_MAX,pSection,TAM_SECTION); break;
 
-case 10: sortEmployeesBySectionByName(pEmployee,LENGTH_MAX,pSection,TAM_SECTION); break;
+case 10: showSection(pSection); break;
 
-case 11: sortEmployeeByNameOrder(pEmployee,LENGTH_MAX); break;
+case 11: showEmployeeBySection(pEmployee,LENGTH_MAX,pSection,TAM_SECTION); break;
 
-case 12: showGreatestSalary(pEmployee,LENGTH_MAX,pSection,TAM_SECTION); break;
+case 12: sortEmployeesBySectionByName(pEmployee,LENGTH_MAX,pSection,TAM_SECTION); break;
 
-case 13: sortBySalary(pEmployee,LENGTH_MAX);
+case 13: sortEmployeeByNameOrder(pEmployee,LENGTH_MAX); break;
+
+case 14: showGreatestSalary(pEmployee,LENGTH_MAX,pSection,TAM_SECTION); break;
+
+case 15: sortBySalary(pEmployee,LENGTH_MAX); break;
+
+case 16: showSalaryPromBySector(pEmployee,LENGTH_MAX,pSection,TAM_SECTION); break;
+
+case 17: saveEmployee("/home/augusto/Proyectos/TP2/empleados.csv",pEmployee,LENGTH_MAX);
 }
-}while(opc != 14);
+}while(opc != 18);
 
 return 0;
 
@@ -507,15 +520,36 @@ int intValid(char* string)
    return num;
 }
 
-
-
-int openFileWrite(char* string, void* x, int tam)
+int openFileRead(char* string)
 {
     FILE *pArch;
 
-    if((pArch=fopen("string","wt"))==NULL)
+    if((pArch=fopen("string","rb"))==NULL)
     {
-        if((pArch=fopen("string","wt"))==NULL)
+        printf("\nNO ES POSIBLE ABRIR EL ARCHIVO!!");
+        return 1;
+    }
+
+    if((fclose(pArch))==-1)
+    {
+        printf("\nNO ES POSIBLE CERRAR EL ARCHIVO!!");
+    }
+
+    else
+    {
+        printf("\nEL ARCHIVO SE CERRO CON EXITO!!");
+    }
+
+    return 0;
+}
+
+int openFileWrite(char* string)
+{
+    FILE *pArch;
+
+    if((pArch=fopen("string","rb"))==NULL)
+    {
+        if((pArch=fopen("string","wb"))==NULL)
         {
             printf("\nNO ES POSIBLE ABRIR EL ARCHIVO!!");
             return 1;
@@ -524,59 +558,6 @@ int openFileWrite(char* string, void* x, int tam)
         fclose(pArch);
     }
 
-    fprintf(pArch,"EMPLEADOS");
-    for(int i=0; i<tam; i++)
-    {
-        fprintf(pArch,"\n\nLegajo: ");
-        fwrite(x,1,tam,pArch);
-        fprintf(pArch,"\nNombre: ");
-        fwrite(x,1,tam,pArch);
-        fprintf(pArch,"\nApellido: ");
-        fwrite(x,1,tam,pArch);
-        fprintf(pArch,"\nSalario: ");
-        fwrite(x,1,tam,pArch);
-        fprintf(pArch,"\nSexo: ");
-        fwrite(x,1,tam,pArch);
-        fprintf(pArch,"\nSector ID: ");
-        fwrite(x,1,tam,pArch);
-    }
-
-
     return 0;
 }
 
-int readWriteOpenMain()
-{
-osDetect(SO);
-
-int opc;
-
-do{
-osDetect(SO);
-
-printf("\n======================================");
-printf("\nSeleccione la Operacion a Realizar");
-printf("\n======================================\n");
-printf("\n1. Crear Archivo");
-printf("\n2. Guardar Archivo");
-printf("\n3. Abrir Archivo");
-printf("\n4. Salir");
-printf("\n\n======================================\n");
-
-opc=optionValid();
-printf("\n======================================\n");
-
-switch(opc)
-{
-
-//case 1: break;
-//case 2: break;
-//case 3: break;
-//case 4: break;
-
-}
-}while(opc != 5);
-
-return 0;
-
-}
